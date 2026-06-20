@@ -1,0 +1,711 @@
+/* ======== Reset & Base ======== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Georgia', 'Times New Roman', 'Noto Serif SC', 'SimSun', serif;
+  background: radial-gradient(ellipse at center, #1a0a2e 0%, #0d0520 60%, #050210 100%);
+  color: #e0d0f0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* ======== 星空画布 ======== */
+#starsCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ======== 页面容器 ======== */
+.page {
+  position: relative;
+  z-index: 1;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.page.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ======== 封面页 ======== */
+.cover-content {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.moon-symbol {
+  font-size: 80px;
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 30px rgba(200, 180, 255, 0.6));
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.cover-title {
+  font-size: 2.8em;
+  color: #d4af37;
+  text-shadow: 0 0 30px rgba(212, 175, 55, 0.5), 0 0 60px rgba(180, 140, 255, 0.3);
+  margin-bottom: 12px;
+  letter-spacing: 6px;
+}
+
+.cover-subtitle {
+  font-size: 1.15em;
+  color: #b8a0d0;
+  margin-bottom: 20px;
+  letter-spacing: 3px;
+}
+
+.cover-desc {
+  font-size: 0.95em;
+  color: #8878a0;
+  margin-bottom: 35px;
+}
+
+.cover-footer {
+  font-size: 0.75em;
+  color: #5a4a70;
+  margin-top: 40px;
+}
+
+/* ======== 按钮 ======== */
+.btn-primary {
+  padding: 16px 50px;
+  font-size: 1.3em;
+  font-family: inherit;
+  color: #1a0a2e;
+  background: linear-gradient(135deg, #d4af37, #f0d060, #d4af37);
+  background-size: 200% 200%;
+  border: 2px solid #b8960f;
+  border-radius: 50px;
+  cursor: pointer;
+  letter-spacing: 3px;
+  transition: all 0.3s ease;
+  animation: shimmer 3s ease-in-out infinite;
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 50px rgba(212, 175, 55, 0.7);
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.btn-secondary {
+  padding: 10px 28px;
+  font-size: 1em;
+  font-family: inherit;
+  color: #d4af37;
+  background: transparent;
+  border: 1.5px solid #d4af37;
+  border-radius: 30px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(212, 175, 55, 0.15);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+/* ======== 抽牌页 ======== */
+.page-title {
+  font-size: 1.5em;
+  color: #c0b0e0;
+  margin-bottom: 30px;
+  letter-spacing: 3px;
+}
+
+/* ======== 牌卡容器（按布局动态切换） ======== */
+.cards-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* === 横向直线 === */
+.layout-horizontal {
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+/* === 单张居中 === */
+.layout-single-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+/* === 2×2 网格 [0]左上 [1]右上 [2]左下 [3]右下 === */
+.layout-grid-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 30px 40px;
+}
+
+/* === 倒三角 [0]上 [1]左下 [2]下中 [3]右下 === */
+.layout-triangle-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+.tri-row {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+.tri-row-top {
+  gap: 0;
+}
+
+/* === V字形 [0]底中 [1]左上 [2]右上 [3]左中 [4]右中 === */
+.layout-vshape-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+}
+.v-row {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+}
+.v-row-bot {
+  gap: 0;
+}
+.v-col {
+  display: flex;
+}
+
+/* === 十字形 [0]上 [1]下 [2]左 [3]右 [4]中 === */
+.layout-cross-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.cross-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+}
+.cross-slot {
+  display: flex;
+}
+
+/* ======== 牌卡 3D 翻转 ======== */
+.card-wrapper {
+  width: 160px;
+  height: 250px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+/* 牌的正面和背面公共样式 */
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === 牌背 === */
+.card-back {
+  background: linear-gradient(135deg, #1a1050, #2a1060, #1a1050);
+  border: 3px solid #d4af37;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 30px rgba(100, 80, 200, 0.2);
+  z-index: 2;
+}
+
+.card-back-pattern {
+  width: 90%;
+  height: 90%;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 5px,
+    rgba(212, 175, 55, 0.08) 5px,
+    rgba(212, 175, 55, 0.08) 10px
+  );
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-back-symbol {
+  font-size: 40px;
+  opacity: 0.5;
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+
+.card-hint {
+  position: absolute;
+  bottom: 12px;
+  font-size: 0.7em;
+  color: rgba(212, 175, 55, 0.6);
+  letter-spacing: 2px;
+}
+
+/* === 牌面 === */
+.card-front {
+  background: linear-gradient(180deg, #faf5e8, #e8dcc8);
+  border: 3px solid #8b6f4e;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 30px rgba(212, 175, 55, 0.3);
+  transform: rotateY(180deg);
+  overflow-y: auto;
+  padding: 12px 10px;
+  font-family: 'Georgia', 'SimSun', serif;
+}
+
+.card-front .card-name {
+  font-size: 1em;
+  color: #2a1a40;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.card-front .card-suit {
+  font-size: 0.7em;
+  color: #8b6f4e;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.card-front .card-direction {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 12px;
+  font-size: 0.7em;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.card-front .card-direction.upright {
+  background: #d4edda;
+  color: #155724;
+}
+
+.card-front .card-direction.reversed {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.card-front .card-meaning {
+  font-size: 0.72em;
+  color: #3a2a50;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.card-wrapper:hover .card-inner:not(.flipped) {
+  transform: translateY(-8px);
+  transition: transform 0.3s ease;
+}
+
+/* ======== 牌位标签 ======== */
+.positions-row {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.position-tag {
+  font-size: 0.9em;
+  color: #a090c0;
+  letter-spacing: 2px;
+  padding: 6px 16px;
+  border: 1px solid rgba(160, 144, 192, 0.3);
+  border-radius: 20px;
+  background: rgba(160, 144, 192, 0.08);
+}
+
+/* ======== 按钮行 ======== */
+.button-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ======== 解读弹窗 ======== */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+
+.modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(5, 2, 16, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(135deg, #1e1040, #150830);
+  border: 2px solid #d4af37;
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: modalIn 0.4s ease-out;
+  box-shadow: 0 0 60px rgba(100, 60, 200, 0.4);
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  font-size: 1.5em;
+  color: #d4af37;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.modal-close:hover {
+  color: #f0d060;
+}
+
+.modal-title {
+  font-size: 1.4em;
+  color: #d4af37;
+  text-align: center;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+}
+
+.modal-tags {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.modal-tags .tag {
+  display: inline-block;
+  padding: 4px 12px;
+  margin: 3px;
+  border-radius: 14px;
+  font-size: 0.75em;
+  background: rgba(212, 175, 55, 0.15);
+  color: #d4af37;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.modal-card-symbol {
+  text-align: center;
+  font-size: 3em;
+  margin-bottom: 12px;
+}
+
+.modal-meaning {
+  font-size: 0.95em;
+  color: #b8a0d0;
+  line-height: 1.7;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.modal-description {
+  font-size: 0.85em;
+  color: #8878a0;
+  line-height: 1.8;
+  text-align: justify;
+}
+
+/* ======== 整体解读面板 ======== */
+.overall-panel {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  background: rgba(20, 10, 40, 0.92);
+  border: 1.5px solid #d4af37;
+  border-bottom: none;
+  border-radius: 16px 16px 0 0;
+  padding: 16px 30px;
+  max-width: 700px;
+  width: 95%;
+  display: none;
+  box-shadow: 0 -4px 30px rgba(100, 60, 200, 0.3);
+}
+.overall-close {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  font-size: 1.3em;
+  color: #d4af37;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  line-height: 1;
+}
+.overall-close:hover {
+  color: #f0d060;
+  transform: scale(1.2);
+}
+
+.overall-panel.active {
+  display: block;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateX(-50%) translateY(100%); }
+  to { transform: translateX(-50%) translateY(0); }
+}
+
+.overall-title {
+  font-size: 1.1em;
+  color: #d4af37;
+  text-align: center;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.overall-text {
+  font-size: 0.85em;
+  color: #b8a0d0;
+  line-height: 1.8;
+  text-align: justify;
+}
+
+/* ======== 牌阵选择区域 ======== */
+.spread-select-area {
+  width: 100%;
+  max-width: 750px;
+  padding: 0 20px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  max-height: 55vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212,175,55,0.3) transparent;
+}
+
+.spread-select-area::-webkit-scrollbar {
+  width: 4px;
+}
+.spread-select-area::-webkit-scrollbar-thumb {
+  background: rgba(212,175,55,0.3);
+  border-radius: 2px;
+}
+
+.spread-category {
+  margin-bottom: 24px;
+}
+
+.spread-category-title {
+  font-size: 0.9em;
+  color: #a090c0;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+  padding-left: 4px;
+}
+
+.spread-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* 单个牌阵卡片 */
+.spread-card {
+  background: linear-gradient(135deg, rgba(30, 16, 64, 0.85), rgba(21, 8, 48, 0.85));
+  border: 1.5px solid rgba(160, 144, 192, 0.2);
+  border-radius: 14px;
+  padding: 18px 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+}
+
+.spread-card:hover {
+  border-color: #d4af37;
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.25), inset 0 0 30px rgba(212, 175, 55, 0.05);
+  transform: translateY(-3px);
+}
+
+.spread-card:active {
+  transform: scale(0.97);
+}
+
+.spread-card-icon {
+  font-size: 2.2em;
+  margin-bottom: 8px;
+}
+
+.spread-card-name {
+  font-size: 1em;
+  color: #d4af37;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.spread-card-count {
+  font-size: 0.7em;
+  color: #8878a0;
+  margin-bottom: 6px;
+}
+
+.spread-card-desc {
+  font-size: 0.72em;
+  color: #6a5a80;
+  line-height: 1.4;
+}
+
+/* ======== 响应式 ======== */
+@media (max-width: 600px) {
+  .cover-title {
+    font-size: 1.8em;
+    letter-spacing: 3px;
+  }
+
+  .card-wrapper {
+    width: 120px;
+    height: 190px;
+  }
+
+  .cards-container {
+    gap: 15px;
+  }
+
+  .card-front .card-name {
+    font-size: 0.8em;
+  }
+
+  .card-front .card-meaning {
+    font-size: 0.65em;
+  }
+
+  .positions-row {
+    gap: 12px;
+  }
+
+  .position-tag {
+    font-size: 0.75em;
+    padding: 4px 10px;
+  }
+
+  .modal-content {
+    padding: 20px 15px;
+  }
+
+  .btn-primary {
+    padding: 14px 36px;
+    font-size: 1.1em;
+  }
+}
+
+@media (max-width: 400px) {
+  .card-wrapper {
+    width: 100px;
+    height: 160px;
+  }
+
+  .cards-container {
+    gap: 10px;
+  }
+
+  .card-front .card-name {
+    font-size: 0.7em;
+  }
+
+  .card-front .card-meaning {
+    font-size: 0.6em;
+  }
+}

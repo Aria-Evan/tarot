@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔮 韦特塔罗占卜</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 星空背景画布 -->
+  <canvas id="starsCanvas"></canvas>
+
+  <!-- ====== 首页封面 / 牌阵选择 ====== -->
+  <div id="coverPage" class="page active">
+    <div class="cover-content">
+      <div class="moon-symbol">🌙</div>
+      <h1 class="cover-title">韦特塔罗占卜</h1>
+      <p class="cover-subtitle">— 默念心中问题，选择适合的牌阵 —</p>
+    </div>
+    <div class="spread-select-area" id="spreadGrid">
+      <!-- JS 动态生成牌阵卡片 -->
+    </div>
+    <p class="cover-footer">共 78 张韦特塔罗牌 · 大阿尔卡纳 22 张 + 小阿尔卡纳 56 张</p>
+  </div>
+
+  <!-- ====== 抽牌页面 ====== -->
+  <div id="drawPage" class="page">
+    <h2 class="page-title" id="drawTitle">🌙 三张无牌阵</h2>
+
+    <div class="cards-container" id="cardsContainer">
+      <!-- 牌卡动态生成 -->
+    </div>
+
+    <div class="positions-row" id="positionsRow">
+      <!-- 位置标签动态生成 -->
+    </div>
+
+    <div class="button-row">
+      <button class="btn-secondary" id="btnBack">← 返回选择</button>
+      <button class="btn-secondary" id="btnRevealAll">🃏 全部翻开</button>
+      <button class="btn-secondary" id="btnRedraw">🔄 重新抽牌</button>
+    </div>
+  </div>
+
+  <!-- ====== 解读弹窗 ====== -->
+  <div id="readingModal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <button class="modal-close" id="btnCloseModal">&times;</button>
+      <h3 id="modalTitle" class="modal-title"></h3>
+      <div class="modal-tags" id="modalTags"></div>
+      <div class="modal-card-symbol" id="modalSymbol"></div>
+      <p class="modal-meaning" id="modalMeaning"></p>
+      <p class="modal-description" id="modalDescription"></p>
+    </div>
+  </div>
+
+  <!-- ====== 全局解读面板 ====== -->
+  <div id="overallPanel" class="overall-panel">
+    <button class="overall-close" id="btnCloseOverall">✕</button>
+    <h3 class="overall-title" id="overallTitle">📜 整体解读</h3>
+    <p id="overallText" class="overall-text"></p>
+  </div>
+
+  <script src="js/tarot-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
