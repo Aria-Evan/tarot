@@ -956,6 +956,39 @@ body {
   border: 1px solid rgba(200,0,50,0.4);
 }
 
+/* ======== 问题输入弹窗 ======== */
+.question-modal-content {
+  text-align: center;
+}
+.question-hint {
+  font-size: 0.8em;
+  color: #8878a0;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.question-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 1em;
+  font-family: inherit;
+  color: #e0d0f0;
+  background: rgba(30,16,64,0.6);
+  border: 1.5px solid rgba(212,175,55,0.3);
+  border-radius: 10px;
+  resize: vertical;
+  min-height: 80px;
+  margin-bottom: 20px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.question-input:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 15px rgba(212,175,55,0.2);
+}
+.question-input::placeholder {
+  color: rgba(180,160,200,0.4);
+}
+
 /* ======== AI 解读区域 ======== */
 .ai-section {
   display: none;

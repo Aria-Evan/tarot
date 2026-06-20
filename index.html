@@ -29,6 +29,18 @@
     </div>
   </div>
 
+  <!-- ====== 问题输入弹窗 ====== -->
+  <div id="questionModal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content question-modal-content">
+      <button class="modal-close" id="btnCloseQuestion">&times;</button>
+      <h3 class="modal-title">💭 默想你的问题</h3>
+      <p class="question-hint">在心里专注思考，然后写下你想问的事情（也可留空直接抽牌）</p>
+      <textarea id="questionInput" class="question-input" placeholder="例如：我和TA的关系未来会怎样？" maxlength="200" rows="3"></textarea>
+      <button class="btn-primary" id="btnQuestionConfirm">✨ 开始洗牌抽牌</button>
+    </div>
+  </div>
+
   <!-- ====== 洗牌动画遮罩 ====== -->
   <div id="shuffleOverlay" class="shuffle-overlay">
     <div class="shuffle-text">🃏 洗牌中...</div>
