@@ -235,8 +235,8 @@ body {
 
 /* ======== 牌卡 3D 翻转 ======== */
 .card-wrapper {
-  width: 160px;
-  height: 250px;
+  width: 180px;
+  height: 280px;
   perspective: 1000px;
   cursor: pointer;
 }
@@ -648,6 +648,374 @@ body {
   line-height: 1.4;
 }
 
+/* ======== 洗牌动画 ======== */
+.shuffle-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(5,2,16,0.92);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.shuffle-overlay.active { display: flex; }
+.shuffle-text {
+  font-size: 1.6em;
+  color: #d4af37;
+  letter-spacing: 4px;
+  z-index: 1;
+  animation: pulse 0.8s ease-in-out infinite;
+  text-shadow: 0 0 20px rgba(212,175,55,0.5);
+}
+@keyframes pulse {
+  0%,100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+.shuffle-cards {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.flying-card {
+  position: absolute;
+  width: 50px;
+  height: 80px;
+  border-radius: 6px;
+  animation: flyCard 1.2s ease-out forwards;
+  opacity: 0;
+}
+.flying-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.5);
+}
+@keyframes flyCard {
+  0% { opacity: 0; transform: translate(0,0) rotate(0deg) scale(0.5); }
+  10% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--x),var(--y)) rotate(var(--rot)) scale(1.2); }
+}
+
+/* ======== 选牌页 ======== */
+.pick-progress {
+  width: 100%;
+  max-width: 600px;
+  height: 8px;
+  background: rgba(100, 80, 160, 0.15);
+  border-radius: 4px;
+  margin: 0 auto 8px;
+  overflow: hidden;
+}
+.pick-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #d4af37, #f0d060);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+.pick-progress-text {
+  text-align: center;
+  font-size: 0.85em;
+  color: #a090c0;
+  margin-bottom: 16px;
+}
+
+/* 78张选牌 — 横向单行滚动，紧密交叠弧形排列 */
+.pick-grid {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 18px 40px 22px;
+  margin: 0 auto 20px;
+  max-width: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212,175,55,0.3) transparent;
+  justify-content: center;
+  perspective: 800px;
+}
+.pick-grid::-webkit-scrollbar { height: 5px; }
+.pick-grid::-webkit-scrollbar-thumb {
+  background: rgba(212,175,55,0.3);
+  border-radius: 3px;
+}
+
+.pick-mini-card {
+  flex: 0 0 62px;
+  width: 62px;
+  height: 93px;
+  margin-left: -44px;
+  background: linear-gradient(135deg, #0d0a30, #1a1050, #0d0a30);
+  border: 2px solid #d4af37;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: -2px 2px 8px rgba(0,0,0,0.5), 0 0 6px rgba(100,80,200,0.12);
+  z-index: 1;
+  /* 弧形角度由JS动态设置 --angle 和 --arc-y */
+  transform: rotate(var(--angle, 0deg)) translateY(var(--arc-y, 0px));
+}
+.pick-mini-card:first-child { margin-left: 0; }
+.pick-mini-card:hover {
+  transform: rotate(var(--angle, 0deg)) translateY(-10px) scale(1.1);
+  box-shadow: -2px 8px 20px rgba(0,0,0,0.6), 0 0 20px rgba(212,175,55,0.35);
+  z-index: 20;
+}
+.pick-mini-card.selected {
+  border-color: #f0d060;
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.7), inset 0 0 20px rgba(212, 175, 55, 0.15);
+  transform: rotate(var(--angle, 0deg)) translateY(-14px) scale(1.12);
+  background: linear-gradient(135deg, #2a1860, #3a1060);
+  z-index: 25;
+}
+
+/* 牌背图案 */
+.pick-mini-back-inner {
+  width: 90%;
+  height: 90%;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 4px,
+    rgba(212, 175, 55, 0.06) 4px,
+    rgba(212, 175, 55, 0.06) 8px
+  );
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pick-mini-back-inner .pick-mini-star {
+  font-size: 1em;
+  color: rgba(200, 180, 255, 0.35);
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+.pick-mini-num {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-size: 0.55em;
+  color: #d4af37;
+  font-weight: bold;
+  background: rgba(0,0,0,0.75);
+  border: 1px solid rgba(212,175,55,0.4);
+  border-radius: 10px;
+  padding: 1px 6px;
+  min-width: 18px;
+  text-align: center;
+  z-index: 20;
+}
+
+/* ======== 真实牌面图片 ======== */
+.card-front {
+  background: #e8dcc8;
+  border: 3px solid #8b6f4e;
+  padding: 0;
+  overflow: hidden;
+}
+.real-card-face {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.real-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+/* 逆位牌面旋转180度 */
+.card-front-reversed .real-card-img {
+  transform: rotate(180deg);
+}
+.real-card-fallback {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.real-card-label {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.5em;
+  padding: 1px 8px;
+  border-radius: 8px;
+  z-index: 2;
+  letter-spacing: 1px;
+}
+.real-card-label.upright { background: rgba(0,200,100,0.3); color: #80f0a0; }
+.real-card-label.reversed { background: rgba(200,0,50,0.3); color: #f08090; }
+
+/* ======== 图像化牌面 ======== */
+.vis-card {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 8px 6px;
+  gap: 3px;
+}
+.vis-major {
+  background: linear-gradient(180deg, #1a0a3e, #2a1060);
+  border: 2px solid #d4af37;
+  color: #e0d0f0;
+}
+.vis-minor { border: 2px solid rgba(0,0,0,0.3); }
+.vis-wands { background: linear-gradient(180deg, #2a1500, #4a2000); color: #ffc080; }
+.vis-cups { background: linear-gradient(180deg, #001a2a, #002a4a); color: #80c0ff; }
+.vis-swords { background: linear-gradient(180deg, #1a1a20, #2a2a30); color: #c0c0d0; }
+.vis-pentacles { background: linear-gradient(180deg, #002a0a, #004a10); color: #80e080; }
+.vis-card.reverse-rotate { transform: rotate(180deg); }
+.reversed-card { }
+.reversed-card .vis-card-dir { opacity: 0.9; }
+
+.vis-card-border {
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgba(212,175,55,0.2);
+  border-radius: 7px;
+  pointer-events: none;
+}
+.vis-major .vis-card-border { border-color: rgba(212,175,55,0.4); }
+
+.vis-card-roman {
+  font-size: 0.9em;
+  font-family: 'Georgia', serif;
+  color: #d4af37;
+  letter-spacing: 1px;
+}
+.vis-card-symbol {
+  font-size: 1.5em;
+}
+.vis-card-name {
+  font-size: 0.65em;
+  text-align: center;
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+.vis-card-dir {
+  font-size: 0.55em;
+  padding: 1px 8px;
+  border-radius: 8px;
+  margin-top: 2px;
+}
+.vis-card-dir.upright { background: rgba(0,200,100,0.2); color: #80f0a0; }
+.vis-card-dir.reversed { background: rgba(200,0,50,0.2); color: #f08090; }
+
+.vis-card-suit-top {
+  font-size: 0.75em;
+  margin-bottom: 2px;
+}
+.vis-card-pips {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  flex: 1;
+  justify-content: center;
+}
+.pip-row {
+  display: flex;
+  gap: 3px;
+  justify-content: center;
+}
+.pip {
+  font-size: 0.6em;
+  line-height: 1;
+}
+.vis-court-symbol {
+  font-size: 2em;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 逆位牌面旋转（整体由 .flipped 处理，这里只做视觉提示） */
+.reversed-card .vis-card-dir {
+  border: 1px solid rgba(200,0,50,0.4);
+}
+
+/* ======== AI 解读区域 ======== */
+.ai-section {
+  display: none;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(212,175,55,0.2);
+}
+.ai-divider {
+  text-align: center;
+  color: #d4af37;
+  font-size: 0.85em;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+}
+.btn-ai {
+  display: inline-block;
+  padding: 8px 24px;
+  font-size: 0.85em;
+  font-family: inherit;
+  color: #1a0a2e;
+  background: linear-gradient(135deg, #a080e0, #c0a0ff);
+  border: 2px solid #8060c0;
+  border-radius: 20px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: all 0.3s;
+  margin: 0 auto;
+}
+.btn-ai:hover {
+  background: linear-gradient(135deg, #c0a0ff, #e0c0ff);
+  box-shadow: 0 0 20px rgba(160,128,224,0.5);
+}
+.ai-loading {
+  text-align: center;
+  font-size: 0.9em;
+  color: #a090c0;
+}
+.ai-dot {
+  animation: aiDotBounce 0.6s ease-in-out infinite;
+  margin: 0 2px;
+}
+.ai-dot:nth-child(2) { animation-delay: 0.15s; }
+.ai-dot:nth-child(3) { animation-delay: 0.3s; }
+@keyframes aiDotBounce {
+  0%,100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+.ai-result {
+  font-size: 0.85em;
+  color: #d0c0f0;
+  line-height: 1.8;
+  text-align: justify;
+  animation: fadeIn 0.6s ease-out;
+}
+.ai-error {
+  font-size: 0.8em;
+  color: #f08090;
+  text-align: center;
+}
+
 /* ======== 响应式 ======== */
 @media (max-width: 600px) {
   .cover-title {
@@ -656,8 +1024,8 @@ body {
   }
 
   .card-wrapper {
-    width: 120px;
-    height: 190px;
+    width: 130px;
+    height: 205px;
   }
 
   .cards-container {

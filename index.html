@@ -29,6 +29,28 @@
     </div>
   </div>
 
+  <!-- ====== 洗牌动画遮罩 ====== -->
+  <div id="shuffleOverlay" class="shuffle-overlay">
+    <div class="shuffle-text">🃏 洗牌中...</div>
+    <div class="shuffle-cards" id="shuffleCards"></div>
+  </div>
+
+  <!-- ====== 选牌页面 ====== -->
+  <div id="pickPage" class="page">
+    <h2 class="page-title" id="pickTitle">🔮 请选择牌阵所需牌数</h2>
+    <div class="pick-progress" id="pickProgress">
+      <div class="pick-progress-bar" id="pickProgressBar"></div>
+    </div>
+    <p class="pick-progress-text" id="pickProgressText">已选 0 / ? 张</p>
+    <div class="pick-grid" id="pickGrid">
+      <!-- 78张盖牌动态生成 -->
+    </div>
+    <div class="button-row">
+      <button class="btn-secondary" id="btnPickBack">← 返回选择</button>
+      <button class="btn-primary" id="btnPickConfirm" disabled>✨ 确认抽牌</button>
+    </div>
+  </div>
+
   <!-- ====== 抽牌页面 ====== -->
   <div id="drawPage" class="page">
     <h2 class="page-title" id="drawTitle">🌙 三张无牌阵</h2>
@@ -45,6 +67,7 @@
       <button class="btn-secondary" id="btnBack">← 返回选择</button>
       <button class="btn-secondary" id="btnRevealAll">🃏 全部翻开</button>
       <button class="btn-secondary" id="btnRedraw">🔄 重新抽牌</button>
+      <button class="btn-secondary" id="btnShowOverall" style="display:none;">📜 查看整体解读</button>
     </div>
   </div>
 
@@ -66,6 +89,15 @@
     <button class="overall-close" id="btnCloseOverall">✕</button>
     <h3 class="overall-title" id="overallTitle">📜 整体解读</h3>
     <p id="overallText" class="overall-text"></p>
+    <div class="ai-section" id="aiSection">
+      <div class="ai-divider">✦ AI 深度解读 ✦</div>
+      <button class="btn-ai" id="btnAIReading">🤖 获取AI解读</button>
+      <div class="ai-loading" id="aiLoading" style="display:none;">
+        <span class="ai-dot">●</span><span class="ai-dot">●</span><span class="ai-dot">●</span>
+      </div>
+      <p class="ai-result" id="aiResult" style="display:none;"></p>
+      <p class="ai-error" id="aiError" style="display:none;"></p>
+    </div>
   </div>
 
   <script src="js/tarot-data.js"></script>
