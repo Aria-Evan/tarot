@@ -563,6 +563,59 @@ body {
   text-align: justify;
 }
 
+/* ======== 卡牌组合解读 ======== */
+.combo-section {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(212, 175, 55, 0.18);
+}
+.combo-divider {
+  text-align: center;
+  color: #d4af37;
+  font-size: 0.8em;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+.combo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.combo-card {
+  background: linear-gradient(135deg, rgba(60, 30, 120, 0.4), rgba(30, 15, 60, 0.5));
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: all 0.3s;
+}
+.combo-card:hover {
+  border-color: #d4af37;
+  background: linear-gradient(135deg, rgba(80, 40, 150, 0.5), rgba(40, 20, 80, 0.6));
+}
+.combo-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.combo-card-names {
+  font-size: 0.82em;
+  color: #d4af37;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+.combo-card-link {
+  font-size: 0.7em;
+  color: #c0a0e0;
+  letter-spacing: 1px;
+}
+.combo-card-desc {
+  font-size: 0.78em;
+  color: #b8a0d0;
+  line-height: 1.6;
+  text-align: justify;
+}
+
 /* ======== 牌阵选择区域 ======== */
 .spread-select-area {
   width: 100%;
@@ -1049,7 +1102,447 @@ body {
   text-align: center;
 }
 
-/* ======== 响应式 ======== */
+/* ======== 顶部导航 ======== */
+.top-nav {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.nav-btn {
+  padding: 8px 20px;
+  font-size: 0.85em;
+  font-family: inherit;
+  color: #c0b0e0;
+  background: rgba(30, 16, 64, 0.6);
+  border: 1px solid rgba(160, 144, 192, 0.3);
+  border-radius: 20px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: all 0.3s;
+}
+.nav-btn:hover {
+  border-color: #d4af37;
+  color: #d4af37;
+  background: rgba(212, 175, 55, 0.1);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+/* ======== 返回顶部按钮 ======== */
+.btn-back-top {
+  align-self: flex-start;
+  padding: 8px 20px;
+  font-size: 0.9em;
+  font-family: inherit;
+  color: #d4af37;
+  background: transparent;
+  border: 1.5px solid #d4af37;
+  border-radius: 25px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: all 0.3s;
+  margin-bottom: 10px;
+}
+.btn-back-top:hover {
+  background: rgba(212, 175, 55, 0.12);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+}
+
+/* ======== 塔罗百科页 ======== */
+#encyclopediaPage {
+  overflow-y: auto;
+  max-height: 100vh;
+  justify-content: flex-start;
+  padding-top: 20px;
+}
+.ency-filter-bar {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.filter-btn {
+  padding: 6px 16px;
+  font-size: 0.78em;
+  font-family: inherit;
+  color: #a090c0;
+  background: rgba(30, 16, 64, 0.5);
+  border: 1px solid rgba(160, 144, 192, 0.2);
+  border-radius: 16px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+}
+.filter-btn:hover {
+  border-color: #d4af37;
+  color: #d4af37;
+}
+.filter-btn.active {
+  background: linear-gradient(135deg, #d4af37, #f0d060);
+  color: #1a0a2e;
+  border-color: #b8960f;
+  font-weight: bold;
+}
+
+.ency-search {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 20px;
+  padding: 10px 16px;
+  font-size: 0.9em;
+  font-family: inherit;
+  color: #e0d0f0;
+  background: rgba(30, 16, 64, 0.5);
+  border: 1.5px solid rgba(160, 144, 192, 0.3);
+  border-radius: 20px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.ency-search:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+}
+.ency-search::placeholder {
+  color: rgba(180, 160, 200, 0.4);
+}
+
+.ency-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 14px;
+  padding: 0 10px 30px;
+  max-width: 750px;
+  width: 100%;
+}
+
+.ency-card {
+  background: linear-gradient(135deg, rgba(30, 16, 64, 0.85), rgba(21, 8, 48, 0.85));
+  border: 1.5px solid rgba(160, 144, 192, 0.18);
+  border-radius: 12px;
+  padding: 14px 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.ency-card:hover {
+  border-color: #d4af37;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
+  transform: translateY(-4px);
+}
+.ency-card .ency-card-icon {
+  font-size: 1.8em;
+}
+.ency-card .ency-card-symbol {
+  font-size: 2.2em;
+  filter: drop-shadow(0 0 6px rgba(200, 180, 255, 0.4));
+}
+.ency-card .ency-card-name {
+  font-size: 0.8em;
+  color: #c0b0e0;
+  letter-spacing: 1px;
+  line-height: 1.3;
+}
+.ency-card .ency-card-en {
+  font-size: 0.65em;
+  color: #6a5a80;
+  letter-spacing: 0.5px;
+}
+.ency-card .ency-card-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.6em;
+  letter-spacing: 1px;
+}
+.ency-card .badge-major {
+  background: rgba(212, 175, 55, 0.2);
+  color: #d4af37;
+}
+.ency-card .badge-wands {
+  background: rgba(255, 160, 60, 0.2);
+  color: #ffa03c;
+}
+.ency-card .badge-cups {
+  background: rgba(80, 160, 255, 0.2);
+  color: #50a0ff;
+}
+.ency-card .badge-swords {
+  background: rgba(200, 200, 220, 0.2);
+  color: #c8c8dc;
+}
+.ency-card .badge-pentacles {
+  background: rgba(80, 220, 80, 0.2);
+  color: #50dc50;
+}
+
+/* 百科详情弹窗 */
+.ency-detail-content {
+  max-width: 560px!important;
+  max-height: 85vh!important;
+}
+.ency-detail-card {
+  text-align: center;
+}
+.ency-detail-img {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  min-height: 100px;
+}
+.ency-detail-img img {
+  max-width: 150px;
+  border-radius: 8px;
+  border: 2px solid rgba(212, 175, 55, 0.3);
+}
+.ency-detail-img .real-card-fallback {
+  width: 150px;
+  min-height: 230px;
+}
+.ency-detail-meanings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 12px 0;
+}
+.ency-meaning-box {
+  padding: 12px;
+  border-radius: 10px;
+  text-align: left;
+}
+.ency-meaning-box.upright {
+  background: rgba(0, 200, 100, 0.08);
+  border: 1px solid rgba(0, 200, 100, 0.2);
+}
+.ency-meaning-box.reversed {
+  background: rgba(200, 0, 50, 0.08);
+  border: 1px solid rgba(200, 0, 50, 0.2);
+}
+.ency-mean-label {
+  display: block;
+  font-size: 0.8em;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+.ency-meaning-box.upright .ency-mean-label { color: #80f0a0; }
+.ency-meaning-box.reversed .ency-mean-label { color: #f08090; }
+.ency-meaning-box p {
+  font-size: 0.78em;
+  color: #b8a0d0;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ======== 历史记录弹窗 ======== */
+.history-modal-content {
+  max-width: 650px!important;
+  max-height: 85vh!important;
+}
+.history-actions {
+  text-align: right;
+  margin-bottom: 10px;
+}
+.btn-small {
+  padding: 6px 16px!important;
+  font-size: 0.75em!important;
+}
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 55vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212,175,55,0.3) transparent;
+}
+.history-list::-webkit-scrollbar { width: 4px; }
+.history-list::-webkit-scrollbar-thumb {
+  background: rgba(212,175,55,0.3);
+  border-radius: 2px;
+}
+.history-empty {
+  text-align: center;
+  color: #6a5a80;
+  font-size: 0.9em;
+  padding: 40px 0;
+}
+.history-item {
+  background: rgba(30, 16, 64, 0.5);
+  border: 1px solid rgba(160, 144, 192, 0.15);
+  border-radius: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.history-item:hover {
+  border-color: #d4af37;
+  background: rgba(40, 20, 80, 0.6);
+}
+.history-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.history-item-spread {
+  font-size: 0.85em;
+  color: #d4af37;
+  letter-spacing: 1px;
+}
+.history-item-time {
+  font-size: 0.7em;
+  color: #5a4a70;
+}
+.history-item-question {
+  font-size: 0.78em;
+  color: #a090c0;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+.history-item-cards {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.history-item-card {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 0.7em;
+  background: rgba(100, 80, 160, 0.15);
+  color: #b8a0d0;
+  letter-spacing: 1px;
+}
+.history-item-card.upright { border-left: 2px solid #80f0a0; }
+.history-item-card.reversed { border-left: 2px solid #f08090; }
+.history-item-delete {
+  float: right;
+  font-size: 0.7em;
+  color: #f08090;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 8px;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+.history-item-delete:hover { opacity: 1; }
+
+/* ======== 分享弹窗 ======== */
+.share-modal-content {
+  max-width: 600px!important;
+  max-height: 90vh!important;
+}
+.share-preview-wrapper {
+  text-align: center;
+  margin: 12px 0;
+}
+#shareCanvas {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 2px solid rgba(212, 175, 55, 0.3);
+}
+.share-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ======== 凯尔特十字布局 ======== */
+.layout-celtic-cross {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px;
+  padding: 20px 0;
+}
+.celtic-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.celtic-cross-core {
+  position: relative;
+  width: 200px;
+  height: 310px;
+}
+.celtic-cross-core .card-wrapper {
+  position: absolute;
+}
+.celtic-cross-core .card-wrapper.cc-pos0 {
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.celtic-cross-core .card-wrapper.cc-pos1 {
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+  z-index: 3;
+}
+.celtic-cross-core .card-wrapper.cc-pos2,
+.celtic-cross-core .card-wrapper.cc-pos3,
+.celtic-cross-core .card-wrapper.cc-pos4,
+.celtic-cross-core .card-wrapper.cc-pos5 {
+  width: 110px!important; height: 172px!important;
+}
+.celtic-cross-core .card-wrapper.cc-pos2 {
+  top: 100%; left: 50%;
+  transform: translate(-50%, 4px);
+  z-index: 1;
+}
+.celtic-cross-core .card-wrapper.cc-pos3 {
+  top: 50%; left: -20px;
+  transform: translate(-100%, -50%);
+  z-index: 1;
+}
+.celtic-cross-core .card-wrapper.cc-pos4 {
+  top: -20px; left: 50%;
+  transform: translate(-50%, -100%);
+  z-index: 1;
+}
+.celtic-cross-core .card-wrapper.cc-pos5 {
+  top: 50%; right: -20px; left: auto;
+  transform: translate(100%, -50%);
+  z-index: 1;
+}
+.celtic-right {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+.celtic-right .card-wrapper {
+  width: 120px!important; height: 188px!important;
+}
+.celtic-right .cc-pos-row {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 4px;
+}
+.celtic-right .cc-pos-label {
+  font-size: 0.7em; color: #a090c0;
+  letter-spacing: 1px; margin-top: 2px;
+}
+@media (max-width: 750px) {
+  .layout-celtic-cross { flex-direction: column; align-items: center; gap: 20px; }
+  .celtic-right { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  .celtic-right .card-wrapper { width: 90px!important; height: 142px!important; }
+  .celtic-cross-core { width: 160px; height: 248px; }
+  .celtic-cross-core .card-wrapper.cc-pos2,
+  .celtic-cross-core .card-wrapper.cc-pos3,
+  .celtic-cross-core .card-wrapper.cc-pos4,
+  .celtic-cross-core .card-wrapper.cc-pos5 { width: 80px!important; height: 126px!important; }
+}
+
 @media (max-width: 600px) {
   .cover-title {
     font-size: 1.8em;

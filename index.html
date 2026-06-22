@@ -19,6 +19,11 @@
       <h1 class="cover-title">韦特塔罗占卜</h1>
       <p class="cover-subtitle">— 默念心中问题，选择适合的牌阵 —</p>
     </div>
+    <!-- 顶部导航 -->
+    <div class="top-nav">
+      <button class="nav-btn" id="btnEncyclopedia">📖 塔罗百科</button>
+      <button class="nav-btn" id="btnHistory">📋 占卜记录</button>
+    </div>
     <div class="spread-select-area" id="spreadGrid">
       <!-- JS 动态生成牌阵卡片 -->
     </div>
@@ -80,6 +85,7 @@
       <button class="btn-secondary" id="btnRevealAll">🃏 全部翻开</button>
       <button class="btn-secondary" id="btnRedraw">🔄 重新抽牌</button>
       <button class="btn-secondary" id="btnShowOverall" style="display:none;">📜 查看整体解读</button>
+      <button class="btn-secondary" id="btnShare">📸 分享结果</button>
     </div>
   </div>
 
@@ -101,6 +107,10 @@
     <button class="overall-close" id="btnCloseOverall">✕</button>
     <h3 class="overall-title" id="overallTitle">📜 整体解读</h3>
     <p id="overallText" class="overall-text"></p>
+    <div class="combo-section" id="comboSection" style="display:none;">
+      <div class="combo-divider">🔗 牌卡组合 · 深度联动解读</div>
+      <div id="comboList" class="combo-list"></div>
+    </div>
     <div class="ai-section" id="aiSection">
       <div class="ai-divider">✦ AI 深度解读 ✦</div>
       <button class="btn-ai" id="btnAIReading">🤖 获取AI解读</button>
@@ -109,6 +119,81 @@
       </div>
       <p class="ai-result" id="aiResult" style="display:none;"></p>
       <p class="ai-error" id="aiError" style="display:none;"></p>
+    </div>
+  </div>
+
+  <!-- ====== 塔罗百科页面 ====== -->
+  <div id="encyclopediaPage" class="page">
+    <button class="btn-back-top" id="btnEncyBack">← 返回首页</button>
+    <h2 class="page-title">📖 塔罗百科 · 78张牌全览</h2>
+    <!-- 筛选栏 -->
+    <div class="ency-filter-bar">
+      <button class="filter-btn active" data-filter="all">全部</button>
+      <button class="filter-btn" data-filter="major">🃡 大阿尔卡纳</button>
+      <button class="filter-btn" data-filter="wands">🪄 权杖</button>
+      <button class="filter-btn" data-filter="cups">🏆 圣杯</button>
+      <button class="filter-btn" data-filter="swords">⚔️ 宝剑</button>
+      <button class="filter-btn" data-filter="pentacles">🪙 星币</button>
+    </div>
+    <input type="text" class="ency-search" id="encySearch" placeholder="🔍 搜索牌名...">
+    <div class="ency-grid" id="encyGrid">
+      <!-- JS 动态生成 -->
+    </div>
+  </div>
+
+  <!-- ====== 百科详情弹窗 ====== -->
+  <div id="encyDetailModal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content ency-detail-content">
+      <button class="modal-close" id="btnEncyClose">&times;</button>
+      <div class="ency-detail-card">
+        <div class="ency-detail-img" id="encyDetailImg"></div>
+        <h3 class="modal-title" id="encyDetailTitle"></h3>
+        <div class="modal-card-symbol" id="encyDetailSymbol"></div>
+        <div class="modal-tags" id="encyDetailTags"></div>
+        <div class="ency-detail-meanings">
+          <div class="ency-meaning-box upright">
+            <span class="ency-mean-label">✨ 正位</span>
+            <p id="encyUpright"></p>
+          </div>
+          <div class="ency-meaning-box reversed">
+            <span class="ency-mean-label">🔄 逆位</span>
+            <p id="encyReversed"></p>
+          </div>
+        </div>
+        <p class="modal-description" id="encyDetailDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== 历史记录弹窗 ====== -->
+  <div id="historyModal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content history-modal-content">
+      <button class="modal-close" id="btnHistoryClose">&times;</button>
+      <h3 class="modal-title">📋 占卜记录</h3>
+      <div class="history-actions">
+        <button class="btn-secondary btn-small" id="btnClearHistory">🗑️ 清空记录</button>
+      </div>
+      <div class="history-list" id="historyList">
+        <p class="history-empty">暂无占卜记录</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== 分享预览弹窗 ====== -->
+  <div id="shareModal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content share-modal-content">
+      <button class="modal-close" id="btnShareClose">&times;</button>
+      <h3 class="modal-title">📸 分享占卜结果</h3>
+      <div class="share-preview-wrapper">
+        <canvas id="shareCanvas"></canvas>
+      </div>
+      <div class="share-actions">
+        <button class="btn-primary" id="btnDownloadShare">💾 下载图片</button>
+        <button class="btn-secondary" id="btnCopyShare">📋 复制到剪贴板</button>
+      </div>
     </div>
   </div>
 
